@@ -10,6 +10,7 @@ import {
   AccordionIcon,
   Button,
   Grid,
+  HStack,
 } from '@chakra-ui/react';
 import { ArrowUpIcon } from '@chakra-ui/icons';
 import Q_LIST from '../question.json';
@@ -23,14 +24,19 @@ export const Questions = () => {
       <Accordion allowToggle w="50%">
         {Q_LIST.map(q => (
           <AccordionItem key="q.id">
-            <AccordionButton>
-              <Box flex="1" textAlign="left">
-                <Text fontWeight="semibold">{q.question}</Text>
-              </Box>
-            </AccordionButton>
-            <AccordionPanel p="2">
-              <Text>{q.answer}</Text>
-            </AccordionPanel>
+            <HStack m="3" align="stretch">
+              <Button variant="ghost" p="1">
+                <ArrowUpIcon />
+              </Button>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  <Text fontWeight="semibold">{q.question}</Text>
+                </Box>
+              </AccordionButton>
+              <AccordionPanel p="2">
+                <Text>{q.answer}</Text>
+              </AccordionPanel>
+            </HStack>
           </AccordionItem>
         ))}
       </Accordion>
