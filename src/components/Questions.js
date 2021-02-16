@@ -7,9 +7,7 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  AccordionIcon,
   Button,
-  Grid,
   HStack,
 } from '@chakra-ui/react';
 import { ArrowUpIcon } from '@chakra-ui/icons';

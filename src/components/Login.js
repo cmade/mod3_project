@@ -7,19 +7,88 @@ import {
   Flex,
   Box,
 } from '@chakra-ui/react';
-import * as React from 'react';
-import { PasswordField } from './PasswordField';
-// import { PasswordField } from './PasswordField';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const Login = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    loginFailed: false,
+    loginSuccess: false,
+  });
+  const { email, password } = formData;
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(formData);
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    login(email, password);
+  };
+  let history = useHistory();
+
+  function handleClick() {
+    history.push('/questions');
+  }
+  function login() {
+    if (
+      formData.email === 'ksmith@gmail.com' &&
+      formData.password === 'MUDgYyibG2MLN!@'
+    ) {
+      console.log('Successful');
+
+      setFormData({
+        ...formData,
+        loginFailed: false,
+        loginSuccess: true,
+      });
+
+      handleClick();
+      setInterval(function () {
+        setFormData({ ...formData, loginFailed: false, loginSuccess: false });
+      }, 3000);
+      console.log(formData);
+    } else {
+      console.log('Failed');
+      setFormData({ ...formData, loginFailed: true, loginSuccess: false });
+      setInterval(function () {
+        setFormData({ ...formData, loginFailed: false, loginSuccess: false });
+      }, 3000);
+      console.log(formData);
+    }
+  }
   return (
     <Flex direction="column" p="4" align="center" mt="4">
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          // your login logic here
-        }}
-      >
+      {formData.loginFailed && (
+        <Box
+          bg="tomato"
+          w="25%"
+          p={1}
+          color="white"
+          align="center"
+          mb="2"
+          fontSize="sm"
+        >
+          Invalid Credentials
+        </Box>
+      )}
+
+      {formData.loginSuccess && (
+        <Box
+          bg="green"
+          w="25%"
+          p={1}
+          color="white"
+          align="center"
+          mb="2"
+          fontSize="sm"
+        >
+          Login Successful
+        </Box>
+      )}
+      <form onSubmit={onSubmit}>
         <Stack spacing="6">
           <FormControl id="email" size="sm">
             <FormLabel>Email address</FormLabel>
@@ -31,9 +100,22 @@ export const Login = () => {
               fontSize="sm"
               size="sm"
               h="6"
+              onChange={onChange}
             />
           </FormControl>
-          <PasswordField />
+          <FormControl id="password" size="sm">
+            <FormLabel>Password</FormLabel>
+            <Input
+              name="password"
+              type="password"
+              autoComplete="password"
+              required
+              fontSize="sm"
+              size="sm"
+              h="6"
+              onChange={onChange}
+            />
+          </FormControl>
           <Flex>
             <Button
               type="submit"
