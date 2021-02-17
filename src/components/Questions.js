@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { ArrowUpIcon } from '@chakra-ui/icons';
 import Q_LIST from '../question.json';
+
 //Map through each question in the json file
 export const Questions = () => {
   return (
@@ -20,8 +21,8 @@ export const Questions = () => {
         <Heading size="md">Interview Questions</Heading>
       </Box>
       <Accordion allowToggle w="50%">
-        {Q_LIST.map(q => (
-          <AccordionItem key="q.id">
+        {Q_LIST.map((q, index) => (
+          <AccordionItem key={index}>
             <HStack m="3" align="stretch">
               <Button variant="ghost" p="1">
                 <ArrowUpIcon />

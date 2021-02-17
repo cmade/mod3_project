@@ -9,8 +9,9 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Auth from './Auth';
 
-export const Login = () => {
+export const Login = ({ user, setUser }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -20,7 +21,6 @@ export const Login = () => {
   const { email, password } = formData;
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(formData);
   };
 
   const onSubmit = e => {
@@ -32,31 +32,25 @@ export const Login = () => {
   function handleClick() {
     history.push('/questions');
   }
+
   function login() {
     if (
       formData.email === 'ksmith@gmail.com' &&
       formData.password === 'MUDgYyibG2MLN!@'
     ) {
-      console.log('Successful');
-
+      Auth(formData.email, formData.password);
       setFormData({
         ...formData,
         loginFailed: false,
         loginSuccess: true,
       });
-
+      setUser(true);
       handleClick();
-      setInterval(function () {
-        setFormData({ ...formData, loginFailed: false, loginSuccess: false });
-      }, 3000);
-      console.log(formData);
     } else {
-      console.log('Failed');
       setFormData({ ...formData, loginFailed: true, loginSuccess: false });
       setInterval(function () {
         setFormData({ ...formData, loginFailed: false, loginSuccess: false });
       }, 3000);
-      console.log(formData);
     }
   }
   return (
