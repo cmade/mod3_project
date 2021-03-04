@@ -9,4 +9,5 @@ export const isLoggedIn = () => {
   if (user === null) return false;
   return true;
 };
+
 export default Auth;
