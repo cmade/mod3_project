@@ -10,8 +10,20 @@ import {
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Auth from './Auth';
-
-export const Login = ({ user, setUser }) => {
+// import { HelloWorldPathVariable } from '../api/HelloWorldService';
+import QuestionApiService from '../api/QuestionApiService';
+export const Login = ({
+  user,
+  setUser,
+  welcome,
+  uWelcome,
+  bean,
+  uBean,
+  nami,
+  uNami,
+  question,
+  questionData,
+}) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -32,12 +44,20 @@ export const Login = ({ user, setUser }) => {
   function handleClick() {
     history.push('/questions');
   }
+  const hello = async () => {
+    try {
+      // let res3 = await HelloWorldPathVariable(email);
+      // uNami(res3.data.message);
+      let res4 = await QuestionApiService('Tom');
+      questionData(res4.data);
+    } catch (error) {
+      // console.log(error.response.data.message);
+      // uNami(error.response.data.message);
+    }
+  };
 
   function login() {
-    if (
-      formData.email === 'ksmith@gmail.com' &&
-      formData.password === 'MUDgYyibG2MLN!@'
-    ) {
+    if (formData.email === 'ksmith@gmail.com' && formData.password === '1') {
       Auth(formData.email, formData.password);
       setFormData({
         ...formData,
@@ -46,6 +66,7 @@ export const Login = ({ user, setUser }) => {
       });
       setUser(true);
       handleClick();
+      hello();
     } else {
       setFormData({ ...formData, loginFailed: true, loginSuccess: false });
       setInterval(function () {
@@ -54,7 +75,10 @@ export const Login = ({ user, setUser }) => {
     }
   }
   return (
-    <Flex direction="column" p="4" align="center" mt="4">
+    <Flex direction="column" align="center" mt="1">
+      <Box>{welcome}</Box>
+      <Box>{bean}</Box>
+
       {formData.loginFailed && (
         <Box
           bg="tomato"
@@ -82,6 +106,9 @@ export const Login = ({ user, setUser }) => {
           Login Successful
         </Box>
       )}
+      <Box align="center" mb="6" fontSize="2xl">
+        Sign in
+      </Box>
       <form onSubmit={onSubmit}>
         <Stack spacing="6">
           <FormControl id="email" size="sm">
@@ -113,9 +140,11 @@ export const Login = ({ user, setUser }) => {
           <Flex>
             <Button
               type="submit"
-              colorScheme="blue"
+              bgGradient="linear(to-l, #6DF1D1,#5BDCFA)"
+              _hover={{ bgGradient: 'linear(to-l, green.300,blue.300)' }}
               size="sm"
               fontSize="sm"
+              color="white"
               m="auto"
             >
               Sign in
